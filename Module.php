@@ -16,7 +16,7 @@ class Module {
 		$sm     = $app->getServiceManager();
 		$em     = $app->getEventManager();
 
-		$cfg = $app->getConfiguration();
+		$cfg = $sm->get('Config');
 
 		if (isset($cfg['deit_access_control'])) {
 
