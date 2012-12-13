@@ -16,31 +16,42 @@ class Module {
 		$sm     = $app->getServiceManager();
 		$em     = $app->getEventManager();
 
-		$config = $this->getConfig();
-		$service = new \DeitAccessControl\Service();
+		$cfg = $this->getConfig();
 
-		$acl = new Acl();
+		if (isset($cfg['deit_access_control'])) {
 
-		foreach ($config['deit_access_control']['acl']['roles'] as $role) {
-			$acl->addRole($role);
+			//get the service config
+			$serviceCfg = $cfg['deit_access_control'];
+
+			//construct the Access Control List
+			$acl = new Acl();
+
+			foreach ($serviceCfg['acl']['roles'] as $role) {
+				$acl->addRole($role);
+			}
+
+			foreach ($serviceCfg['acl']['resources'] as $resource) {
+				$acl->addResource($resource);
+			}
+
+			foreach ($serviceCfg['acl']['rules']['allow'] as $role => $resource) {
+				$acl->allow($role, $resource);
+			}
+
+			//create the service
+			$service = new \DeitAccessControl\Service();
+			$service
+				->setAcl($acl)
+				->setDefaultRole($serviceCfg['default_role'])
+				->setRoleResolver($serviceCfg['role_resolver'])
+			;
+
+			//attach the service listeners
+			$em->attachAggregate($service);
+			$em->attachAggregate(new View\UnauthorisedStrategy());
+
 		}
 
-		foreach ($config['deit_access_control']['acl']['resources'] as $resource) {
-			$acl->addResource($resource);
-		}
-
-		foreach ($config['deit_access_control']['acl']['rules']['allow'] as $role => $resource) {
-			$acl->allow($role, $resource);
-		}
-
-		$service
-			->setAcl($acl)
-			->setDefaultRole($config['deit_access_control']['default_role'])
-			->setRoleResolver($config['deit_access_control']['role_resolver'])
-		;
-
-		$em->attachAggregate($service);
-		$em->attachAggregate(new View\UnauthorisedStrategy());
 	}
 
 	public function getConfig() {
