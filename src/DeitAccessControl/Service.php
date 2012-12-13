@@ -112,7 +112,7 @@ class Service implements ListenerAggregateInterface {
 			$action     = $rm->getParam('action');
 			$names      = explode('\\', $controller.'\\'.$action);
 
-			$as = $sm->get('AuthService');
+			$as = $sm->get('Zend\Authentication\AuthenticationService');
 			if ($as->hasIdentity()) {
 				$identity   = $as->getIdentity();
 				$resolver   = $this->getRoleResolver();
