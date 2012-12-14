@@ -26,8 +26,14 @@ class Module {
 			//construct the Access Control List
 			$acl = new Acl();
 
-			foreach ($serviceCfg['acl']['roles'] as $role) {
-				$acl->addRole($role);
+			foreach ($serviceCfg['acl']['roles'] as $key => $value) {
+
+				if (is_string($key)) {
+					$acl->addRole($key, $value);
+				} else {
+					$acl->addRole($value);
+				}
+
 			}
 
 			foreach ($serviceCfg['acl']['resources'] as $resource) {
