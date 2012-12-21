@@ -11,9 +11,9 @@ return array(
 
 			'roles' => array(
 				'Guest',
-				'Student',
-				'Supervisor',
-				'Admin',
+				'Student'           => 'Guest',
+				'Supervisor'        => 'Guest',
+				'Admin'             => 'Guest',
 			),
 
 			'resources' => array(
