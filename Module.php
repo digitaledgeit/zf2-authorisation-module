@@ -1,3 +1,3 @@
 <?php
 
-include_once __DIR__.'/src/DeitAuthentication/Module.php';
+include_once __DIR__.'/src/DeitAuthorisation/Module.php';
