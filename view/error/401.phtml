@@ -1,2 +1,10 @@
 <h1>Unauthorised</h1>
-<p>The requested resource requires authentication. Please authenticate and try again.</p>
+<p>
+	The requested resource requires authentication. Please
+	<a href="<?php echo $this->url('log-in', array(), array(
+		'query' => array(
+			'return' => $_SERVER['REQUEST_URI']
+		)
+	)); ?>">log-in</a>
+	to continue.
+</p>
