@@ -1,6 +1,6 @@
 <?php
 
-namespace DeitAccessControl\View;
+namespace DeitAuthorisation\View;
 
 use \Zend\EventManager\EventManagerInterface;
 use \Zend\EventManager\ListenerAggregateInterface;
