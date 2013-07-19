@@ -12,5 +12,10 @@
 		"psr-0": {
 			"DeitAuthorisation\\": "src/"
 		}
+	},
+	"require": {
+		"php": ">=5.3.3",
+		"zendframework/zend-mvc": "2.*",
+		"zendframework/zend-servicemanager": "2.*"
 	}
 }

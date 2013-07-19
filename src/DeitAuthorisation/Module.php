@@ -55,6 +55,7 @@ class Module {
 			//attach the service listeners
 			$em->attachAggregate($service);
 			$em->attachAggregate(new View\UnauthorisedStrategy());
+			//TODO: specify the view
 
 		}
 
