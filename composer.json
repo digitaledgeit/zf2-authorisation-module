@@ -1,5 +1,5 @@
 {
-	"name":         "deit/zf2-authorisation-module",
+	"name":         "digitaledgeit/zf2-authorisation-module",
 	"description":  "Digital Edge IT authorisation module for Zend Framework v2",
 	"homepage":     "http://www.digitaledgeit.com.au/",
 	"authors": [
