@@ -1,6 +1,6 @@
 <?php
 
-namespace DeitAuthorisation;
+namespace DeitAuthorisationModule;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
@@ -26,31 +26,43 @@ class Module {
 			//construct the Access Control List
 			$acl = new Acl();
 
-			foreach ($serviceCfg['acl']['roles'] as $key => $value) {
+			if (isset($serviceCfg['acl']['roles'])) {
+				foreach ($serviceCfg['acl']['roles'] as $key => $value) {
 
-				if (is_string($key)) {
-					$acl->addRole($key, $value);
-				} else {
-					$acl->addRole($value);
+					if (is_string($key)) {
+						$acl->addRole($key, $value);
+					} else {
+						$acl->addRole($value);
+					}
+
 				}
-
 			}
 
-			foreach ($serviceCfg['acl']['resources'] as $resource) {
-				$acl->addResource($resource);
+			if (isset($serviceCfg['acl']['resources'])) {
+				foreach ($serviceCfg['acl']['resources'] as $resource) {
+					$acl->addResource($resource);
+				}
 			}
 
-			foreach ($serviceCfg['acl']['rules']['allow'] as $resource => $role) {
-				$acl->allow($role, $resource);
+			if (isset($serviceCfg['acl']['rules']['allow'])) {
+				foreach ($serviceCfg['acl']['rules']['allow'] as $resource => $role) {
+					$acl->allow($role, $resource);
+				}
 			}
 
 			//create the service
-			$service = new \DeitAuthorisation\Service();
+			$service = new \DeitAuthorisationModule\Service();
 			$service
 				->setAcl($acl)
-				->setDefaultRole($serviceCfg['default_role'])
-				->setRoleResolver($serviceCfg['role_resolver'])
 			;
+
+			if (isset($serviceCfg['default_role'])) {
+				$service->setDefaultRole($serviceCfg['default_role']);
+			}
+
+			if (isset($serviceCfg['role_resolver'])) {
+				$service->setRoleResolver($serviceCfg['role_resolver']);
+			}
 
 			//attach the service listeners
 			$options    = $sm->get('deit_authorisation_options');

@@ -7,15 +7,15 @@ return array(
 
 			'deit_authorisation_options' => function($sm) {
 				$config = $sm->get('Config');
-				return new \DeitAuthorisation\Options\Options(
+				return new \DeitAuthorisationModule\Options\Options(
 					isset($config['deit_authorisation']) ? $config['deit_authorisation'] : array()
 				);
 			},
 
-			'DeitAuthorisation\View\UnauthorisedStrategy' => function($sm) {
+			'DeitAuthorisationModule\View\ViewStrategy' => function($sm) {
 
 				$options    = $sm->get('deit_authorisation_options');
-				$strategy   = new DeitAuthorisation\View\ViewStrategy();
+				$strategy   = new DeitAuthorisationModule\View\ViewStrategy();
 
 				if ($options->getTemplate()) {
 					$strategy->setExceptionTemplate($options->getTemplate());
@@ -24,10 +24,10 @@ return array(
 				return $strategy;
 			},
 
-			'DeitAuthorisation\View\RedirectStrategy' => function($sm) {
+			'DeitAuthorisationModule\View\RedirectStrategy' => function($sm) {
 
 				$options    = $sm->get('deit_authorisation_options');
-				$strategy   = new DeitAuthorisation\View\RedirectStrategy();
+				$strategy   = new DeitAuthorisationModule\View\RedirectStrategy();
 
 				if ($options->getRoute()) {
 					$strategy->setRedirectRoute($options->getRoute());
@@ -51,7 +51,7 @@ return array(
 		 * The unauthorised strategy
 		 * @type    string
 		 */
-		'strategy'  => 'DeitAuthorisation\View\ViewStrategy',
+		'strategy'  => 'DeitAuthorisationModule\View\ViewStrategy',
 
 		/**
 		 * The view template to display when the user is unauthorised

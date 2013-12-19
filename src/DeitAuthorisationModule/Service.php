@@ -1,6 +1,6 @@
 <?php
 
-namespace DeitAuthorisation;
+namespace DeitAuthorisationModule;
 
 use \Zend\EventManager\EventManagerInterface;
 use \Zend\EventManager\ListenerAggregateInterface;
@@ -83,13 +83,13 @@ class Service implements ListenerAggregateInterface {
 	 * @param callable $resolver
 	 * @return Service
 	 */
-	public function setRoleResolver($resolver) {
+	public function setRoleResolver(callable $resolver) {
 		$this->roleResolver = $resolver;
 		return $this;
 	}
 
 	public function attach(EventManagerInterface $events) {
-		$this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'), -10000);
+		$this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'), -1000);
 	}
 
 	public function detach(EventManagerInterface $events) {
@@ -100,10 +100,10 @@ class Service implements ListenerAggregateInterface {
 		}
 	}
 
-	public function onRoute(MvcEvent $event) {
+	public function onRoute(MvcEvent $e) {
 
-		$rm     = $event->getRouteMatch();
-		$app    = $event->getApplication();
+		$rm     = $e->getRouteMatch();
+		$app    = $e->getApplication();
 		$sm     = $app->getServiceManager();
 
 		if ($rm) {
@@ -139,14 +139,13 @@ class Service implements ListenerAggregateInterface {
 
 			if (!$allowed) {
 
-				$event
-					->setError('error-unauthorized')
+				$e->setError('error-unauthorized')
 					->setParam('identity', $identity)
 					->setParam('controller', $controller)
 					->setParam('action', $action)
 				;
 
-				return $app->getEventManager()->trigger('dispatch.error', $event);
+				$e->getApplication()->getEventManager()->trigger('dispatch.error', $e);
 
 			}
 

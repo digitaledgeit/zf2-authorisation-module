@@ -10,7 +10,7 @@
 	],
 	"autoload": {
 		"psr-0": {
-			"DeitAuthorisation\\": "src/"
+			"DeitAuthorisationModule\\": "src/"
 		}
 	},
 	"require": {

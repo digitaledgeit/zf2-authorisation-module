@@ -1,38 +1,38 @@
 <?php
 
-namespace DeitAuthorisation\View;
+namespace DeitAuthorisationModule\View;
 use \Zend\EventManager\EventManagerInterface;
 use \Zend\EventManager\ListenerAggregateInterface;
 use \Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
 /**
- * View strategy
+ * Redirect strategy
  * @author James Newell <james@digitaledgeit.com.au>
  */
-class ViewStrategy implements ListenerAggregateInterface {
+class RedirectStrategy implements ListenerAggregateInterface {
 
 	/**
-	 * Name of exception template
+	 * The name of the redirect route
 	 * @var     string
 	 */
-	protected $exceptionTemplate = 'error/401';
+	private $redirectRoute;
 
 	/**
-	 * Gets the exception template
+	 * Gets the name of the redirect route
 	 * @return  string
 	 */
-	public function getExceptionTemplate() {
-		return $this->exceptionTemplate;
+	public function getRedirectRoute() {
+		return $this->route;
 	}
 
 	/**
-	 * Sets the exception template
-	 * @param   string $template
-	 * @return  ViewStrategy
+	 * Sets the name of the redirect route
+	 * @param   string $name
+	 * @return  $this
 	 */
-	public function setExceptionTemplate($template) {
-		$this->exceptionTemplate = (string) $template;
+	public function setRedirectRoute($name) {
+		$this->redirectRoute = (string) $name;
 		return $this;
 	}
 
@@ -43,7 +43,7 @@ class ViewStrategy implements ListenerAggregateInterface {
 		$this->listeners[] = $eventManager->attach(
 			MvcEvent::EVENT_DISPATCH_ERROR,
 			array($this, 'onUnauthorised'),
-			-10
+			-5
 		);
 	}
 
@@ -76,16 +76,16 @@ class ViewStrategy implements ListenerAggregateInterface {
 			return;
 		}
 
+		$router = $event->getRouter();
+
 		if ($event->getError() == 'error-unauthorized') {
 
-			$model = new ViewModel(array(
-				'message' => 'An error occurred during execution; please try again later.'
-			));
-			$model->setTemplate($this->getExceptionTemplate());
-			$event->setResult($model);
+			//todo: add return URL
+			$url = $router->assemble(array(), array('name' => $this->redirectRoute));
 
 			$response = $event->getResponse() ?: new Response();
-			$response->setStatusCode(401);
+			$response->getHeaders()->addHeaderLine('Location', $url);
+			$response->setStatusCode(302);
 			$event->setResponse($response);
 
 		}
