@@ -18,18 +18,18 @@ To restrict access to your controllers, add a new config entry in your module:
 			'admin' => 'guest'                                              //the admin role inherits guest permissions
 		),
 		'resources' => array(
-			'DeitAuthentication\\Controller\\Auth\\log-in',
-			'DeitAuthentication\\Controller\\Auth\\log-out',
-			'DeitAuthentication\\Controller\\Auth',
-			'DeitAuthentication',
+			'DeitAuthenticationModule\\Controller\\Authentication\\log-in',
+			'DeitAuthenticationModule\\Controller\\Authentication\\log-out',
+			'DeitAuthenticationModule\\Controller\\Authentication',
+			'DeitAuthenticationModule',
 		),
 		'rules'     => array(
 			'allow'     => array(
-				'DeitAuthentication\\Controller\\Auth\\log-in'  => 'guest',  //specific action
-				'DeitAuthentication\\Controller\\Auth\\log-out' => 'admin' ,
+				'DeitAuthenticationModule\\Controller\\Authentication\\log-in'  => 'guest',  //specific action
+				'DeitAuthenticationModule\\Controller\\Authentication\\log-out' => 'admin' ,
 				
-				'DeitAuthentication\\Controller\\Auth'          => 'guest',  //specific controller
-				'DeitAuthentication'                            => 'guest',  //specific module
+				'DeitAuthenticationModule\\Controller\\Authentication'          => 'admin',  //specific controller
+				'DeitAuthenticationModule'                                      => 'admin',  //specific module
 			), 
 		),
 	),
@@ -52,5 +52,5 @@ To restrict access to your controllers, add a new config entry in your module:
 		} 
 	},
 	
-)
+),
 </code>

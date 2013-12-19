@@ -83,13 +83,13 @@ class Service implements ListenerAggregateInterface {
 	 * @param callable $resolver
 	 * @return Service
 	 */
-	public function setRoleResolver(callable $resolver) {
+	public function setRoleResolver($resolver) {
 		$this->roleResolver = $resolver;
 		return $this;
 	}
 
 	public function attach(EventManagerInterface $events) {
-		$this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'), -1000);
+		$this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'), -10000);
 	}
 
 	public function detach(EventManagerInterface $events) {
@@ -100,10 +100,10 @@ class Service implements ListenerAggregateInterface {
 		}
 	}
 
-	public function onRoute(MvcEvent $e) {
+	public function onRoute(MvcEvent $event) {
 
-		$rm     = $e->getRouteMatch();
-		$app    = $e->getApplication();
+		$rm     = $event->getRouteMatch();
+		$app    = $event->getApplication();
 		$sm     = $app->getServiceManager();
 
 		if ($rm) {
@@ -139,13 +139,14 @@ class Service implements ListenerAggregateInterface {
 
 			if (!$allowed) {
 
-				$e->setError('error-unauthorized')
+				$event
+					->setError('error-unauthorized')
 					->setParam('identity', $identity)
 					->setParam('controller', $controller)
 					->setParam('action', $action)
 				;
 
-				$e->getApplication()->getEventManager()->trigger('dispatch.error', $e);
+				return $app->getEventManager()->trigger('dispatch.error', $event);
 
 			}
 

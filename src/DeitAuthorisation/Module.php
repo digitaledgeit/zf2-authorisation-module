@@ -11,8 +11,8 @@ use \Zend\Permissions\Acl\GenericResource as Resource;
 
 class Module {
 
-	public function onBootstrap(MvcEvent $e) {
-		$app    = $e->getApplication();
+	public function onBootstrap(MvcEvent $event) {
+		$app    = $event->getApplication();
 		$sm     = $app->getServiceManager();
 		$em     = $app->getEventManager();
 
@@ -53,8 +53,10 @@ class Module {
 			;
 
 			//attach the service listeners
+			$options    = $sm->get('deit_authorisation_options');
+			$strategy   = $sm->get($options->getStrategy());
+			$em->attachAggregate($strategy);
 			$em->attachAggregate($service);
-			$em->attachAggregate(new View\UnauthorisedStrategy());
 			//TODO: specify the view
 
 		}
