@@ -1,5 +1,5 @@
 
-= Zend Framework 2 module: DeitAuthorisationModule =
+# Zend Framework 2 module: DeitAuthorisationModule #
 
 This module is a simple reusable access control module which restricts access to 
 your controllers based on the user's role.
@@ -7,6 +7,24 @@ your controllers based on the user's role.
 To restrict access to your controllers, add a new config entry in your module:
 
 	'deit_authorisation' => array(
+
+		/**
+		 * The service name of the unauthorised strategy
+		 * @type    string
+		 */
+		'strategy'  => 'DeitAuthorisationModule\View\ViewStrategy',
+
+		/**
+		 * The view template to display when the user is unauthorised
+		 * @type    string
+		 */
+		'template'  => 'error/401',
+
+		/**
+		 * The route to redirect to when the user is unauthorised
+		 * @type    string
+		 */
+		'route'     => 'log-in',
 
 		/**
 		 * The access control list

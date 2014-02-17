@@ -26,6 +26,10 @@ class Options {
 	 */
 	private $route;
 
+	/**
+	 * Constructs the options
+	 * @param mixed[string] $config
+	 */
 	public function __construct(array $config = array()) {
 
 		if (isset($config['strategy'])) {

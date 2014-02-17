@@ -50,7 +50,7 @@ class Module {
 				}
 			}
 
-			//create the service
+			//create the authorisation service
 			$service = new \DeitAuthorisationModule\Service();
 			$service
 				->setAcl($acl)
@@ -64,9 +64,11 @@ class Module {
 				$service->setRoleResolver($serviceCfg['role_resolver']);
 			}
 
-			//attach the service listeners
+			//create the authorisation strategy
 			$options    = $sm->get('deit_authorisation_options');
 			$strategy   = $sm->get($options->getStrategy());
+
+			//attach the service listeners
 			$em->attachAggregate($strategy);
 			$em->attachAggregate($service);
 			//TODO: specify the view

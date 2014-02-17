@@ -76,17 +76,22 @@ class RedirectStrategy implements ListenerAggregateInterface {
 			return;
 		}
 
-		$router = $event->getRouter();
-
 		if ($event->getError() == 'error-unauthorized') {
 
-			//todo: add return URL
-			$url = $router->assemble(array(), array('name' => $this->redirectRoute));
+			//handle the event
+			$event->setError(null);
 
+			//create the URL to redirect to
+			//TODO: add return URL
+			$router = $event->getRouter();
+			$url    = $router->assemble(array(), array('name' => $this->redirectRoute));
+
+			//redirect to the URL
 			$response = $event->getResponse() ?: new Response();
 			$response->getHeaders()->addHeaderLine('Location', $url);
 			$response->setStatusCode(302);
 			$event->setResponse($response);
+
 
 		}
 

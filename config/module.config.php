@@ -48,7 +48,7 @@ return array(
 	'deit_authorisation' => array(
 
 		/**
-		 * The unauthorised strategy
+		 * The service name of the unauthorised strategy
 		 * @type    string
 		 */
 		'strategy'  => 'DeitAuthorisationModule\View\ViewStrategy',
