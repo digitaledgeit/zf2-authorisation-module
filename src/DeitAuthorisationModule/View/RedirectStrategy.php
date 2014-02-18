@@ -89,7 +89,6 @@ class RedirectStrategy implements ListenerAggregateInterface {
 			$response->setStatusCode(302);
 			$event->setResponse($response);
 
-
 		}
 
 	}
