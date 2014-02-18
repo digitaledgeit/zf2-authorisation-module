@@ -78,9 +78,6 @@ class RedirectStrategy implements ListenerAggregateInterface {
 
 		if ($event->getError() == 'error-unauthorized') {
 
-			//handle the event
-			$event->setError(null);
-
 			//create the URL to redirect to
 			//TODO: add return URL
 			$router = $event->getRouter();
