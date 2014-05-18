@@ -44,9 +44,9 @@ To restrict access to your controllers, add a new config entry in your module:
 			),
 			'rules'     => array(
 				'allow'     => array(
-					'DeitAuthenticationModule\\Controller\\Authentication::log-in'  => 'guest',  //restrict access to a specific action
-					'DeitAuthenticationModule\\Controller\\Authentication::log-out' => 'admin' ,
-					//'DeitAuthenticationModule\\Controller\\Authentication'          => 'admin',  //restrict access to a specific controller
+					'DeitAuthenticationModule\\Controller\\Authentication\\log-in'  => 'guest',  //restrict access to a specific action
+					'DeitAuthenticationModule\\Controller\\Authentication\\log-out' => 'admin' ,
+					//'DeitAuthenticationModule\\Controller\\Authentication'        => 'admin',  //restrict access to a specific controller
 					'Application'                                                   => 'admin',  //restrict access to a specific module
 				),
 			),
